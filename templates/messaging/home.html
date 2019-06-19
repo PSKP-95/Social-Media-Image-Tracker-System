@@ -1,0 +1,89 @@
+{% extends 'layout/base.html' %}
+
+{% block content %}
+<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css'>
+<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css'>
+
+<div id="frame">
+	<div id="sidepanel">
+		<div id="contacts">
+			<ul>
+
+                {% for user in users %}
+				<a href="/?id={{ user[2] }}" style="color: white">
+                {% if user[3] %}
+                    <li class="contact active">
+                        <div class="wrap">
+                            <img class="circle-1" src="{{ url_for('static',filename='img/user.png') }}" alt="" />
+                            <div class="meta">
+                                <p class="name">{{ user[1] }}</p>
+                                <p>@{{ user[0] }}</p>
+                            </div>
+                        </div>
+                    </li>
+                {% else %}
+                    <li class="contact">
+                        <div class="wrap">
+                            <img class="circle-1" src="{{ url_for('static',filename='img/user.png') }}" alt="" />
+                            <div class="meta">
+                                <p class="name">{{ user[1] }}</p>
+                                <p>@{{ user[0] }}</p>
+                            </div>
+                        </div>
+                    </li>
+                {% endif %}
+                </a>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+	<div class="content">
+		<div class="contact-profile">
+			<img src="{{ url_for('static',filename='img/user.png') }}" alt="" />
+			<p>{{ cur[1] }}</p>
+		</div>
+		<div class="messages">
+			<ul>
+                {% if cur[2] == 0 %}
+                    <li class="sent">
+                        <img class="circle" src="{{ url_for('static',filename='img/user.png') }}" alt="" />
+                            <p>Welcome to Image tracking system for whatsapp <b>Using Image Steganography and Perceptual Hashing</b></p>
+
+                    </li>
+                    <li class="sent">
+                        <img class="circle" src="{{ url_for('static',filename='img/user.png') }}" alt="" />
+
+                            <p>We are, <br>Farhan I Jamadar <br> Jinesh S Nadar<br> Parikshit S Patil</p>
+                    </li>
+                {% endif %}
+                {% for i in messages %}
+                {% if i[1] == 1 %}
+				<li class="sent">
+					<img class="circle" src="{{ url_for('static',filename='img/user.png') }}" alt="" />
+					<img style="height: 200px;width: 300px;border: 2px solid black" src="{{ url_for('static',filename=i[0]) }}">
+				</li>
+                {% else %}
+				<li class="replies">
+					<img class="circle" src="{{ url_for('static',filename='img/user.png') }}" alt="" />
+					<img style="height: 200px;width: 300px;border: 2px solid black" src="{{ url_for('static',filename=i[0]) }}">
+				</li>
+                {% endif %}
+                {% endfor %}
+			</ul>
+		</div>
+		<div class="message-input">
+			<div class="wrap">
+			<form method="POST" action="/submit" enctype="multipart/form-data">
+                <input type="text" id="receiver" name="receiver" hidden value="{{ cur[2] }}">
+                <input type="file" accept="image/png,image/jpeg" id="data" name="data">
+                <button class="submit" name="submit" id="submit" type="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+            </form>
+			</div>
+		</div>
+	</div>
+</div>
+{#<script src='https://production-assets.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js'></script>#}
+{#<script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>#}
+{#<script src="{{ url_for('static',filename='js/messagepage.js') }}"></script>#}
+
+{% endblock %}

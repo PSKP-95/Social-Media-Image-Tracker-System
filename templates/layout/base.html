@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Image Trace</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/messageframe.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div>
+      <nav class="navbar navbar-inverse navbar-expand-lg navbar-dark bg-dark" style="height: 70px">
+      <a class="navbar-brand" href="#"><img style="height: 50px;width: 50px" src="{{ url_for('static',filename='img/whatsapp_logo.png') }}"></a>
+
+      <div>
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('index') }}">App</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('wiki') }}">Wiki</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('trace_it') }}">Trace</a>
+          </li>
+        </ul>
+      </div>
+
+        <ul class="navbar-nav ml-auto">
+            {% if not username  %}
+            <li class="nav-item">
+                <a class="nav-link btn btn-outline-success" href="{{ url_for('login') }}">Login</a>
+            </li>&nbsp;
+            <li class="nav-item">
+                <a class="nav-link btn btn-outline-primary" href="{{ url_for('signup') }}">Register</a>
+            </li>
+            {% else %}
+            <li class="nav-item dropdown">
+                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                    {{ username }}<span class="caret"></span>
+                </a>
+
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#">Profile</a>
+                    <a class="dropdown-item" href="/logout">
+                        Logout
+                    </a>
+
+                    <form id="logout-form" action="" method="POST" style="display: none;">
+
+                    </form>
+                </div>
+            </li>
+            {% endif %}
+        </ul>
+
+    </nav>
+    {% if error == 0 %}
+        <div class="alert alert-danger">
+            Something Went Wrong
+        </div>
+    {% elif error == 1 %}
+        <div class="alert alert-success">
+            Successful
+        </div>
+    {% elif error == 2 %}
+        <div class="alert alert-success">
+            Wrong Password or Username
+        </div>
+    {% endif %}
+    <div class="container">
+        {% block content %}
+
+        {% endblock %}
+    </div>
+
+    </div>
+</body>
+</html>
